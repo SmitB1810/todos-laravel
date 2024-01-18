@@ -20,7 +20,7 @@ class TaskController extends Controller
     public function getDataParams($id){
         try {
             if ($id==null) {
-                return "Please enter the ID";
+                return "ID not found";
             } else {
                 return Task::find($id);
             }
@@ -43,11 +43,15 @@ class TaskController extends Controller
 
     public function updateData($id, Request $req) {
         try {
-            $task = Task::find($id);
-            $task->taskTitle = $req->taskTitle;
-            $task->description = $req->description;
-            $task->save();
-            return "Updated Successfully!";
+            if ($id==null) {
+                return "ID not found";
+            } else {
+                $task = Task::find($id);
+                $task->taskTitle = $req->taskTitle;
+                $task->description = $req->description;
+                $task->save();
+                return "Updated Successfully!";
+            }
         } catch (\Exception $e) {
             return $e->getMessage();
         }
@@ -55,8 +59,12 @@ class TaskController extends Controller
 
     public function deleteData($id) {
         try {
-            $task =Task::find($id)->delete();
-            return "Deleted Successfully!";
+            if ($id==null) {
+                return "ID not found";
+            } else {
+                $task =Task::find($id)->delete();
+                return "Deleted Successfully!";
+            }
         } catch (\Exception $e) {
             return $e->getMessage();
         }
@@ -64,20 +72,28 @@ class TaskController extends Controller
 
     public function startTime($id) {
         try {
-            $task = Task::find($id);
-            $task -> start_time = now();
-            $task->save();
-            return "Task Started";
+            if ($id==null) {
+                return "ID not found";
+            } else {
+                $task = Task::find($id);
+                $task -> start_time = now();
+                $task->save();
+                return "Task Started";
+            }
         } catch (\Exception $e) {
             return $e->getMessage();
         }
     }
     public function endTime($id) {
         try {
-            $task = Task::find($id);
-            $task -> end_time = now();
-            $task->save();
-            return "Task Ended!";
+            if ($id==null) {
+                return "ID not found";
+            } else {
+                $task = Task::find($id);
+                $task -> end_time = now();
+                $task->save();
+                return "Task Ended!";
+            }
         } catch (\Exception $e) {
             return $e->getMessage();
         }
